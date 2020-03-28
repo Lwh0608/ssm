@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sxt.ssm.mapper.UserMapper">
+	<!--id 唯一标识  和接口方法同名 
+		parameterType 参数的类型
+		useGeneratedKeys：是否返回数据库生成的主键 true是/false否
+		keyProperty : 数据库主键对应java的pojo对象的属性
+		keyColumn : 数据表的主键列名
+	 -->
+	<insert id="insertUser" parameterType="com.sxt.ssm.pojo.User"
+		useGeneratedKeys="true" 
+		keyProperty="id"
+		keyColumn="id">
+		<!-- 
+			#{xxx} ： OGNL语法
+			xxx ：如果方法的参数是对象或者map接口 ，xxx就是 对象的属性名称和map的key
+		 -->
+		insert into t_user(name,pwd,role) values(#{name}, #{pwd},#{role})
+	</insert>
+	
+	<!-- 按主键id从User 表查询单条数据 
+	 resultType : 查询结果对应的封装的返回类型
+	-->
+	<select id="selectUserByPrimaryId"
+		parameterType="integer" resultType="com.sxt.ssm.pojo.User"
+	>
+	
+		select * from t_user where id = #{id}
+	</select>
+	
+	<!-- 多行查询
+  	resultType : 无论是多行查询还是单行查询,返回的结果类型都是对应的JavaBean的类型
+   -->
+	<select id="selectUser" resultType="com.sxt.ssm.pojo.User">
+		select * from t_user
+	</select>
+	
+	<!--删除  -->
+	<delete id="deleteUserByPrimaryId" parameterType="integer">
+		delete from t_user where id = #{id}
+	</delete>
+	
+	<!-- 更新 -->
+	<update id="updateUserByPrimaryId" parameterType="com.sxt.ssm.pojo.User">
+		update t_user set name = #{name}, pwd = #{pwd}, role = #{role} where id = #{id}
+	</update>
+</mapper>
